@@ -62,6 +62,8 @@ class CovidClassifier(Model):
 
         # output_dict = dict(contextual_embeddings=contextual_embeddings, logits=logits, mask=mask)
         output_dict = dict(logits=logits)
+        if "id" in kwargs:
+            output_dict["id"] = kwargs["id"]
 
         if target is not None:
             # TODO: take `seq_scored` into account
