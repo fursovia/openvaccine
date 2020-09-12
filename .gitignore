@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.ipynb
+*.idea
+
+logs
+data/raw_data
