@@ -36,12 +36,12 @@ class CovidReader(DatasetReader):
             structure: str,
             predicted_loop_type: str,
             seq_scored: int,
+            seq_id: str,
             reactivity: Optional[List[float]] = None,
             deg_Mg_pH10: Optional[List[float]] = None,
             deg_pH10: Optional[List[float]] = None,
             deg_Mg_50C: Optional[List[float]] = None,
             deg_50C: Optional[List[float]] = None,
-            seq_id: Optional[str] = None,
             **kwargs
     ) -> Instance:
 
@@ -56,7 +56,8 @@ class CovidReader(DatasetReader):
                 predicted_loop_type,
                 {"tokens": SingleIdTokenIndexer("predicted_loop_type")}
             ),
-            "seq_scored": LabelField(label=seq_scored, skip_indexing=True)
+            "seq_scored": LabelField(label=seq_scored, skip_indexing=True),
+            "seq_id": MetadataField(metadata=seq_id)
         }
 
         if reactivity is not None:
@@ -89,7 +90,6 @@ class CovidReader(DatasetReader):
             target = np.vstack((reactivity, deg_Mg_pH10, deg_pH10, deg_Mg_50C, deg_50C))
             fields["target"] = ArrayField(array=target)
 
-        fields["id"] = MetadataField(metadata=seq_id)
         return Instance(fields)
 
     def _read(self, file_path: str):
@@ -111,12 +111,12 @@ class CovidReader(DatasetReader):
                     structure=structure,
                     predicted_loop_type=predicted_loop_type,
                     seq_scored=seq_scored,
+                    seq_id=items["id"],
                     reactivity=items.get("reactivity"),
                     deg_Mg_pH10=items.get("deg_Mg_pH10"),
                     deg_pH10=items.get("deg_pH10"),
                     deg_Mg_50C=items.get("deg_Mg_50C"),
                     deg_50C=items.get("deg_50C"),
-                    seq_id=items.get("id")
                 )
                 if instance.fields["sequence"].sequence_length() <= self._max_sequence_length:
                     yield instance

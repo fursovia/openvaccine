@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 
 import torch
 
@@ -45,6 +45,7 @@ class CovidClassifier(Model):
             structure: TextFieldTensors,
             predicted_loop_type: TextFieldTensors,
             seq_scored: torch.Tensor,
+            seq_id: Any,
             target: Optional[torch.Tensor] = None,
             **kwargs,
     ) -> Dict[str, torch.Tensor]:
@@ -61,9 +62,7 @@ class CovidClassifier(Model):
         logits = self._linear(contextual_embeddings)
 
         # output_dict = dict(contextual_embeddings=contextual_embeddings, logits=logits, mask=mask)
-        output_dict = dict(logits=logits)
-        if "id" in kwargs:
-            output_dict["id"] = kwargs["id"]
+        output_dict = dict(logits=logits, seq_id=seq_id)
 
         if target is not None:
             # TODO: take `seq_scored` into account
