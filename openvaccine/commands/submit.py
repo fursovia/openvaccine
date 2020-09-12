@@ -10,7 +10,7 @@ def main(predictions_path: str, output_path: str):
 
     kaggle_preds = []
     for pred in preds:
-        for i, logits in enumerate(pred["logits"]):
+        for i, logits in enumerate(pred["logits"][1:-1]):
             kaggle_preds.append(
                 {
                     "id_seqpos": pred["seq_id"] + f"_{i}",
