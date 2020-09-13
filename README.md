@@ -2,6 +2,10 @@
 
 
 ```bash
+CUDA_VISIBLE_DEVICES="1" bash bin/train.sh gru
+```
+
+```bash
 TRAIN_DATA_PATH=./data/train.jsonl \
     VALID_DATA_PATH=./data/valid.jsonl \
     allennlp train ./configs/transformer.jsonnet \
