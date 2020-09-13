@@ -14,7 +14,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 32,
+          "embedding_dim": 16,
           "trainable": true,
           "vocab_namespace": "sequence"
         }
@@ -42,8 +42,8 @@ local VOCAB = import 'common/vocab.jsonnet';
     },
     "seq2seq_encoder": {
       "type": "gated-cnn-encoder",
-      "input_dim": 64,
-      "layers": [ [[4, 64]], [[4, 64], [4, 64]], [[4, 64], [4, 64]] ],
+      "input_dim": 48,
+      "layers": [ [[4, 48]], [[4, 48], [4, 48]], [[4, 48], [4, 48]] ],
       "dropout": 0.2,
     },
     "loss": {
@@ -69,11 +69,15 @@ local VOCAB = import 'common/vocab.jsonnet';
   },
   "trainer": {
     "optimizer": {
-      "type": "adamw",
+      "type": "adam",
       "lr": 0.001
     },
-    "num_epochs": 50,
-    "patience": 5,
+    "learning_rate_scheduler": {
+      "type": "slanted_triangular",
+      "cut_frac": 0.06
+    },
+    "num_epochs": 100,
+    "patience": 10,
     "cuda_device": 0
   }
 }
