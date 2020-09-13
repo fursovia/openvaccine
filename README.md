@@ -19,5 +19,6 @@ allennlp predict logs/test/model.tar.gz data/test.json \
     --output-file logs/test/test_preds.json \
     --include-package openvaccine \
     --predictor covid_predictor \
-    --file-friendly-logging
+    --cuda-device 0 \
+    --batch-size 64
 ```
