@@ -12,7 +12,7 @@ TRAIN_DATA_PATH=./data/train.jsonl \
 
 ```bash
 allennlp predict logs/test/model.tar.gz data/test.json \
-    --output-file preds.json \
+    --output-file logs/test/test_preds.json \
     --include-package openvaccine \
     --predictor covid_predictor \
     --file-friendly-logging
