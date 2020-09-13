@@ -23,6 +23,7 @@ def main(predictions_path: str, output_path: str):
             )
 
     kaggle_preds = pd.DataFrame(kaggle_preds)
+    typer.echo(f"Saving submission to {output_path}")
     kaggle_preds.to_csv(output_path, index=False)
 
 
