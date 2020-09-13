@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 CONFIG_NAME=$1
-DATE=$(date +%T-%d%m)
+DATE=$(date +%H%M%S-%d%m)
 EXP_NAME=${DATE}-${CONFIG_NAME}
 
 
