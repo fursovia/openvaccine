@@ -19,15 +19,21 @@ END_TOKEN = "<END>"
 
 @DatasetReader.register("covid_reader")
 class CovidReader(DatasetReader):
-    def __init__(self, max_sequence_length: int = None, lazy: bool = False,) -> None:
+    def __init__(
+            self,
+            max_sequence_length: int = None,
+            add_start_end_tokens: bool = True,
+            lazy: bool = False,
+    ) -> None:
         super().__init__(lazy=lazy)
 
         self._max_sequence_length = max_sequence_length or math.inf
+        self._add_start_end_tokens = add_start_end_tokens
         self._tokenizer = CharacterTokenizer()
         self._start_token = Token(START_TOKEN)
         self._end_token = Token(END_TOKEN)
 
-    def _add_start_end_tokens(self, tokens: List[Token]) -> List[Token]:
+    def _surround_with_start_end_tokens(self, tokens: List[Token]) -> List[Token]:
         return [self._start_token] + tokens + [self._end_token]
 
     def text_to_instance(
@@ -45,9 +51,14 @@ class CovidReader(DatasetReader):
             **kwargs
     ) -> Instance:
 
-        sequence = self._add_start_end_tokens(self._tokenizer.tokenize(sequence))
-        structure = self._add_start_end_tokens(self._tokenizer.tokenize(structure))
-        predicted_loop_type = self._add_start_end_tokens(self._tokenizer.tokenize(predicted_loop_type))
+        sequence = self._tokenizer.tokenize(sequence)
+        structure = self._tokenizer.tokenize(structure)
+        predicted_loop_type = self._tokenizer.tokenize(predicted_loop_type)
+
+        if self._add_start_end_tokens:
+            sequence = self._surround_with_start_end_tokens(sequence)
+            structure = self._surround_with_start_end_tokens(structure)
+            predicted_loop_type = self._surround_with_start_end_tokens(predicted_loop_type)
 
         fields = {
             "sequence": TextField(sequence, {"tokens": SingleIdTokenIndexer("sequence")}),
@@ -87,7 +98,7 @@ class CovidReader(DatasetReader):
                 deg_Mg_50C is not None and
                 deg_50C is not None
         ):
-            target = np.vstack((reactivity, deg_Mg_pH10, deg_pH10, deg_Mg_50C, deg_50C))
+            target = np.vstack((reactivity, deg_Mg_pH10, deg_Mg_50C, deg_pH10, deg_50C))
             fields["target"] = ArrayField(array=target)
 
         return Instance(fields)

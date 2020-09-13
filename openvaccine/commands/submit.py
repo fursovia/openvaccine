@@ -16,8 +16,8 @@ def main(predictions_path: str, output_path: str):
                     "id_seqpos": pred["seq_id"] + f"_{i}",
                     "reactivity": logits[0],
                     "deg_Mg_pH10": logits[1],
-                    "deg_pH10": logits[2],
-                    "deg_Mg_50C": logits[3],
+                    "deg_Mg_50C": logits[2],
+                    "deg_pH10": logits[3],
                     "deg_50C": logits[4]
                 }
             )
