@@ -72,6 +72,6 @@ local VOCAB = import 'common/vocab.jsonnet';
   "trainer": {
     "num_epochs": 50,
     "patience": 5,
-    "cuda_device": 1
+    "cuda_device": 0
   }
 }
