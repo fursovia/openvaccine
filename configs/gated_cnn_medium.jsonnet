@@ -43,7 +43,7 @@ local VOCAB = import 'common/vocab.jsonnet';
     "seq2seq_encoder": {
       "type": "gated-cnn-encoder",
       "input_dim": 48,
-      "layers": [ [[4, 48]], [[4, 48], [4, 48]], [[4, 48], [4, 48]], [[4, 48], [4, 48]] ],
+      "layers": [ [[4, 48]], [[4, 48], [4, 48]], [[4, 48], [4, 48]] ],
       "dropout": 0.2,
     },
     "loss": {
