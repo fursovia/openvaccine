@@ -68,6 +68,10 @@ local VOCAB = import 'common/vocab.jsonnet';
     "pin_memory": true
   },
   "trainer": {
+    "optimizer": {
+      "type": "adamw",
+      "lr": 0.003
+    },
     "num_epochs": 50,
     "patience": 5,
     "cuda_device": 0
