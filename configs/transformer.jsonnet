@@ -1,3 +1,5 @@
+local VOCAB = import 'common/vocab.jsonnet';
+
 {
   "dataset_reader": {
     "type": "covid_reader",
@@ -5,22 +7,7 @@
   },
   "train_data_path": std.extVar("TRAIN_DATA_PATH"),
   "validation_data_path": std.extVar("VALID_DATA_PATH"),
-  "vocabulary": {
-    "tokens_to_add": {
-      "sequence": [
-        "<START>",
-        "<END>"
-      ],
-      "structure": [
-        "<START>",
-        "<END>"
-      ],
-      "predicted_loop_type": [
-        "<START>",
-        "<END>"
-      ]
-    },
-  },
+  "vocabulary": VOCAB['vocabulary'],
   "model": {
     "type": "covid_classifier",
     "sequence_field_embedder": {
@@ -64,7 +51,10 @@
       "dropout_prob": 0.1,
       "activation": "relu"
     },
-
+    "loss": {
+      "type": "MCRMSE",
+      "calculate_on_scored": true
+    }
   },
 //  "distributed": {
 //    "master_address": "127.0.0.1",
