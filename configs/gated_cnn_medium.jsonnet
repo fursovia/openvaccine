@@ -44,7 +44,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "type": "gated-cnn-encoder",
       "input_dim": 48,
       "layers": [ [[4, 48]], [[4, 48], [4, 48]], [[4, 48], [4, 48]], [[4, 48], [4, 48]] ],
-      "dropout": 0.05,
+      "dropout": 0.2,
     },
     "loss": {
       "type": "MCRMSE",
