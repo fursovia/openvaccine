@@ -47,7 +47,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "dropout": 0.2,
     },
     "loss": {
-      "type": "MCRMSE",
+      "type": "MSE",
       "calculate_on_scored": true
     }
   },
