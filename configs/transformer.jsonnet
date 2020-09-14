@@ -66,7 +66,7 @@ local VOCAB = import 'common/vocab.jsonnet';
 //    ]
 //  },
   "data_loader": {
-    "batch_size": 32,
+    "batch_size": 1024,
     "shuffle": false,
     "num_workers": 0,
     // https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723
