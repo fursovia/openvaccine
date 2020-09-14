@@ -76,7 +76,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "type": "slanted_triangular",
       "cut_frac": 0.06
     },
-    "num_epochs": 100,
+    "num_epochs": 200,
     "patience": 10,
     "cuda_device": 0
   }
