@@ -70,8 +70,8 @@ local VOCAB = import 'common/vocab.jsonnet';
     "pin_memory": true
   },
   "trainer": {
-    "num_epochs": 50,
-    "patience": 5,
+    "num_epochs": 100,
+    "patience": 10,
     "cuda_device": 0
   }
 }

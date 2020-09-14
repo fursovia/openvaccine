@@ -14,7 +14,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 8,
+          "embedding_dim": 16,
           "trainable": true,
           "vocab_namespace": "sequence"
         }
@@ -42,13 +42,13 @@ local VOCAB = import 'common/vocab.jsonnet';
     },
     "seq2seq_encoder": {
       "type": "pytorch_transformer",
-      "input_dim": 24,
+      "input_dim": 32,
       "num_layers": 4,
-      "num_attention_heads": 2,
+      "num_attention_heads": 4,
       "feedforward_hidden_dim": 32,
       "positional_embedding_size": 512,
       "positional_encoding": "embedding",
-      "dropout_prob": 0.1,
+      "dropout_prob": 0.05,
       "activation": "relu"
     },
     "loss": {
@@ -73,8 +73,8 @@ local VOCAB = import 'common/vocab.jsonnet';
     "pin_memory": false
   },
   "trainer": {
-    "num_epochs": 50,
-    "patience": 2,
+    "num_epochs": 100,
+    "patience": 10,
     "cuda_device": 0
   }
 }
