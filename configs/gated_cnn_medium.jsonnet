@@ -44,7 +44,7 @@ local LOADER = import 'common/loader.jsonnet';
     "seq2seq_encoder": {
       "type": "gated-cnn-encoder",
       "input_dim": 96,
-      "layers": [ [[4, 192]], [[4, 192], [4, 192]], [[4, 192], [4, 192]] ],
+      "layers": [ [[4, 96]], [[4, 96], [4, 96]], [[4, 96], [4, 96]] ],
       "dropout": 0.2,
     },
     "loss": {
