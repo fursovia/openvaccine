@@ -9,7 +9,6 @@ class MSE(Loss):
         logits = logits[:, :self._num_to_calc_on]
         targets = targets[:, :self._num_to_calc_on]
 
-        mse = torch.nn.functional.mse_loss(logits, targets, reduction="none")
-        mean_mse = torch.mean(mse, dim=0)
-        loss = torch.mean(mean_mse)
+        loss = torch.nn.functional.mse_loss(logits, targets)  # reduction="none")
+        # loss = torch.mean(loss, dim=0).mean()
         return loss
