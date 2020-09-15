@@ -3,6 +3,7 @@
 TO-DO:
 
 * Calculate MCRMSE on the full dataset (not batches)
+* Seq2seq for each sequence and a concatenation at the end
 
 
 ```bash

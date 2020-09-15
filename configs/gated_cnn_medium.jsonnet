@@ -15,7 +15,7 @@ local LOADER = import 'common/loader.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 64,
+          "embedding_dim": 32,
           "trainable": true,
           "vocab_namespace": "sequence"
         }
@@ -25,7 +25,7 @@ local LOADER = import 'common/loader.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 64,
+          "embedding_dim": 32,
           "trainable": true,
           "vocab_namespace": "structure"
         }
@@ -35,7 +35,7 @@ local LOADER = import 'common/loader.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 64,
+          "embedding_dim": 32,
           "trainable": true,
           "vocab_namespace": "predicted_loop_type"
         }
@@ -43,7 +43,7 @@ local LOADER = import 'common/loader.jsonnet';
     },
     "seq2seq_encoder": {
       "type": "gated-cnn-encoder",
-      "input_dim": 192,
+      "input_dim": 96,
       "layers": [ [[4, 192]], [[4, 192], [4, 192]], [[4, 192], [4, 192]] ],
       "dropout": 0.2,
     },
