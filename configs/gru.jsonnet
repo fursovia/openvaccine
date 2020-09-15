@@ -1,4 +1,5 @@
 local VOCAB = import 'common/vocab.jsonnet';
+local LOADER = import 'common/loader.jsonnet';
 
 {
   "dataset_reader": {
@@ -14,7 +15,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 8,
+          "embedding_dim": 64,
           "trainable": true,
           "vocab_namespace": "sequence"
         }
@@ -24,7 +25,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 8,
+          "embedding_dim": 64,
           "trainable": true,
           "vocab_namespace": "structure"
         }
@@ -34,7 +35,7 @@ local VOCAB = import 'common/vocab.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 8,
+          "embedding_dim": 64,
           "trainable": true,
           "vocab_namespace": "predicted_loop_type"
         }
@@ -42,14 +43,14 @@ local VOCAB = import 'common/vocab.jsonnet';
     },
     "seq2seq_encoder": {
       "type": "gru",
-      "input_size": 24,
-      "hidden_size": 64,
-      "num_layers": 1,
-      "dropout": 0.05,
+      "input_size": 192,
+      "hidden_size": 128,
+      "num_layers": 2,
+      "dropout": 0.2,
       "bidirectional": true
     },
     "loss": {
-      "type": "MCRMSE",
+      "type": "MSE",
       "calculate_on_scored": true
     }
   },
@@ -62,13 +63,7 @@ local VOCAB = import 'common/vocab.jsonnet';
 //      1
 //    ]
 //  },
-  "data_loader": {
-    "batch_size": 1024,
-    "shuffle": true,
-    "num_workers": 0,
-    // https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723
-    "pin_memory": true
-  },
+  "data_loader": LOADER['data_loader'],
   "trainer": {
     "num_epochs": 100,
     "patience": 10,
