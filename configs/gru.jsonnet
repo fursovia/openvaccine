@@ -46,7 +46,7 @@ local LOADER = import 'common/loader.jsonnet';
       "input_size": 192,
       "hidden_size": 128,
       "num_layers": 2,
-      "dropout": 0.2,
+      "dropout": 0.3,
       "bidirectional": true
     },
     "loss": {
@@ -65,8 +65,8 @@ local LOADER = import 'common/loader.jsonnet';
 //  },
   "data_loader": LOADER['data_loader'],
   "trainer": {
-    "num_epochs": 100,
-    "patience": 10,
+    "num_epochs": 200,
+    "patience": 15,
     "cuda_device": 0
   }
 }
