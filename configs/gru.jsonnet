@@ -65,7 +65,7 @@ local LOADER = import 'common/loader.jsonnet';
       "regexes": [
         [".*", {
           "type": "l2",
-          "alpha": 1e-07
+          "alpha": 0.01
         }]
       ]
     }
@@ -83,6 +83,15 @@ local LOADER = import 'common/loader.jsonnet';
   "trainer": {
     "num_epochs": 200,
     "patience": 15,
+//    "optimizer": {
+//      "type": "adam",
+//      "lr": 0.001,
+//      "betas": [
+//        0.8,
+//        0.999
+//      ],
+//      "eps": 1e-07
+//    },
     "cuda_device": 0
   }
 }
