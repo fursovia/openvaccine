@@ -91,7 +91,7 @@ local LOADER = import 'common/loader.jsonnet';
     },
     "optimizer": {
       "type": "adam",
-      "lr": 0.001
+      "lr": 0.01
     },
     "cuda_device": 0
   }
