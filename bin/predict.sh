@@ -11,6 +11,7 @@ allennlp predict ${LOGDIR}/model.tar.gz \
     --predictor covid_predictor \
     --cuda-device 0
 
+cat ${LOGDIR}/metrics.json | grep best_validation_loss
 bash bin/evaluate.sh ${LOGDIR}
 
 PYTHONPATH=. python openvaccine/commands/submit.py \
