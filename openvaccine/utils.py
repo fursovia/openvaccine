@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Sequence, Union
+from typing import List, Dict, Any, Sequence, Union, Optional
 
 import jsonlines
 import pandas as pd
@@ -18,10 +18,17 @@ def write_jsonlines(data: Sequence[Dict[str, Any]], path: str) -> None:
             writer.write(ex)
 
 
-def parse_predictions(predictions: List[Dict[str, Any]]) -> List[Dict[str, Union[str, float]]]:
+def parse_predictions(
+        predictions: List[Dict[str, Any]],
+        seq_scored: Optional[List[int]] = None,
+) -> List[Dict[str, Union[str, float]]]:
     kaggle_preds = []
-    for pred in predictions:
-        for i, logits in enumerate(pred["logits"][1:-1]):
+    for j, pred in enumerate(predictions):
+        logits = pred["logits"][1:-1]
+        if seq_scored is not None:
+            logits = logits[:seq_scored[j]]
+
+        for i, logits in enumerate(logits):
             kaggle_preds.append(
                 {
                     "id_seqpos": pred["seq_id"] + f"_{i}",
