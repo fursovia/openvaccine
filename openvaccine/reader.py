@@ -122,7 +122,7 @@ class CovidReader(DatasetReader):
                     structure=structure,
                     predicted_loop_type=predicted_loop_type,
                     seq_scored=seq_scored,
-                    seq_id=items["id"],
+                    seq_id=items["seq_id"],
                     reactivity=items.get("reactivity"),
                     deg_Mg_pH10=items.get("deg_Mg_pH10"),
                     deg_pH10=items.get("deg_pH10"),
