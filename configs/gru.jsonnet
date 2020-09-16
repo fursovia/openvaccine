@@ -84,13 +84,14 @@ local LOADER = import 'common/loader.jsonnet';
     "num_epochs": 200,
     "patience": 15,
     "learning_rate_scheduler": {
-      "type": "slanted_triangular",
-      "cut_frac": 0.06
+      "type": "reduce_on_plateau",
+      "factor": 0.5,
+      "mode": "min",
+      "patience": 2
     },
     "optimizer": {
-      "type": "huggingface_adamw",
-      "lr": 0.001,
-      "weight_decay": 0.1,
+      "type": "adam",
+      "lr": 0.001
     },
     "cuda_device": 0
   }
