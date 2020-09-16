@@ -6,6 +6,7 @@ from allennlp.data import TextFieldTensors, Vocabulary
 from allennlp.models.model import Model
 from allennlp.modules import Seq2SeqEncoder, TextFieldEmbedder, InputVariationalDropout, MatrixAttention
 from allennlp.nn.util import get_text_field_mask, weighted_sum, masked_softmax
+from allennlp.nn.regularizers import RegularizerApplicator
 
 from openvaccine.losses import Loss
 
@@ -22,8 +23,9 @@ class CovidClassifier(Model):
             loss: Loss,
             variational_dropout: float = 0.0,
             matrix_attention: Optional[MatrixAttention] = None,
+            regularizer: RegularizerApplicator = None
     ) -> None:
-        super().__init__(vocab)
+        super().__init__(vocab, regularizer)
         self._sequence_field_embedder = sequence_field_embedder
         self._structure_field_embedder = structure_field_embedder
         self._predicted_loop_type_field_embedder = predicted_loop_type_field_embedder

@@ -58,8 +58,16 @@ local LOADER = import 'common/loader.jsonnet';
       "type": "linear",
       "tensor_1_dim": 256,
       "tensor_2_dim": 192,
-      "combination": "x,y,x*y",
+      "combination": "x,y",
       "activation": null
+    },
+    "regularizer": {
+      "regexes": [
+        [".*", {
+          "type": "l2",
+          "alpha": 1e-07
+        }]
+      ]
     }
   },
 //  "distributed": {
