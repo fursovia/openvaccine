@@ -52,6 +52,14 @@ local LOADER = import 'common/loader.jsonnet';
     "loss": {
       "type": "MSE",
       "calculate_on_scored": true
+    },
+    "variational_dropout": 0.0,
+    "matrix_attention": {
+      "type": "linear",
+      "tensor_1_dim": 256,
+      "tensor_2_dim": 192,
+      "combination": "x,y",
+      "activation": null
     }
   },
 //  "distributed": {

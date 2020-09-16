@@ -55,7 +55,9 @@ local LOADER = import 'common/loader.jsonnet';
     "loss": {
       "type": "MCRMSE",
       "calculate_on_scored": true
-    }
+    },
+    "variational_dropout": 0.0,
+    "matrix_attention": null
   },
 //  "distributed": {
 //    "master_address": "127.0.0.1",
