@@ -89,7 +89,7 @@ local LOADER = import 'common/loader.jsonnet';
     },
     "optimizer": {
       "type": "huggingface_adamw",
-      "lr": 2e-6,
+      "lr": 0.001,
       "weight_decay": 0.1,
     },
     "cuda_device": 0
