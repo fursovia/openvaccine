@@ -16,3 +16,5 @@ bash bin/evaluate.sh ${LOGDIR}
 PYTHONPATH=. python openvaccine/commands/submit.py \
     ${LOGDIR}/test_preds.json \
     ${LOGDIR}/${SUBMIT_NAME}_submit.csv
+
+git rev-parse --short HEAD

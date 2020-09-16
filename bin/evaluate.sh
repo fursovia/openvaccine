@@ -12,4 +12,4 @@ allennlp predict ${LOGDIR}/model.tar.gz \
 
 PYTHONPATH=. python openvaccine/commands/evaluate.py \
     ${LOGDIR}/valid_preds.json \
-    ./data/valid.json
+    ./data/valid.jsonl
