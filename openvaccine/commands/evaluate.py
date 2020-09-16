@@ -9,7 +9,7 @@ COLUMNS = ["reactivity", "deg_Mg_pH10", "deg_Mg_50C", "deg_pH10", "deg_50C"]
 
 def main(predictions_path: str, data_path: str):
     data = load_jsonlines(data_path)
-    data = pd.DataFrame(data)[COLUMNS]
+    data = pd.DataFrame(data)
 
     y_true = []
     for idx, row in data.iterrows():
