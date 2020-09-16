@@ -11,16 +11,7 @@ allennlp predict ${LOGDIR}/model.tar.gz \
     --predictor covid_predictor \
     --cuda-device 0
 
-allennlp predict ${LOGDIR}/model.tar.gz \
-    ./data/valid.json \
-    --output-file ${LOGDIR}/valid_preds.json \
-    --include-package openvaccine \
-    --predictor covid_predictor \
-    --cuda-device 0
-
-PYTHONPATH=. python openvaccine/commands/evaluate.py \
-    ${LOGDIR}/valid_preds.json \
-    ./data/valid.json
+bash bin/evaluate.sh ${LOGDIR}
 
 PYTHONPATH=. python openvaccine/commands/submit.py \
     ${LOGDIR}/test_preds.json \

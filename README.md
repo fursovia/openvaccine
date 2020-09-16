@@ -1,6 +1,23 @@
 # OpenVaccine
 
-TO-DO:
+
+```bash
+CUDA_VISIBLE_DEVICES="1" bash bin/train.sh gru
+```
+
+```bash
+CUDA_VISIBLE_DEVICES="1" bash bin/predict.sh LOGDIR
+```
+
+```bash
+CUDA_VISIBLE_DEVICES="1" bash bin/evaluate.sh LOGDIR
+```
+
+```bash
+git rev-parse --short HEAD
+```
+
+## To-Do
 
 * Calculate MCRMSE on the full dataset (not batches)
 * Seq2seq for each sequence and a concatenation at the end
@@ -14,18 +31,6 @@ TO-DO:
 * Aggregate using GatedSum
 * InputVariationalDropout, Attention, LayerNorm, MatrixAttention, ResidualWithLayerDropout, Maxout, ScalarMix
 
-
-```bash
-CUDA_VISIBLE_DEVICES="1" bash bin/train.sh gru
-```
-
-```bash
-CUDA_VISIBLE_DEVICES="1" bash bin/predict.sh LOGDIR
-```
-
-```bash
-git rev-parse --short HEAD
-```
 
 
 ## List of papers
