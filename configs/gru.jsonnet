@@ -58,7 +58,7 @@ local LOADER = import 'common/loader.jsonnet';
       "type": "linear",
       "tensor_1_dim": 256,
       "tensor_2_dim": 192,
-      "combination": "x,y",
+      "combination": "x,y,x*y",
       "activation": null
     }
   },
