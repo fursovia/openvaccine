@@ -2,7 +2,9 @@ import typer
 
 import pandas as pd
 
-from openvaccine.utils import load_jsonlines, parse_predictions, calculate_mcrmse
+from openvaccine.utils.data import load_jsonlines, parse_predictions
+from openvaccine.utils.metrics import calculate_mcrmse
+
 
 COLUMNS = ["reactivity", "deg_Mg_pH10", "deg_Mg_50C", "deg_pH10", "deg_50C"]
 

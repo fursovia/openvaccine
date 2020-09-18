@@ -2,7 +2,7 @@ import typer
 
 import pandas as pd
 
-from openvaccine.utils import load_jsonlines, parse_predictions
+from openvaccine.utils.data import load_jsonlines, parse_predictions
 
 
 def main(predictions_path: str, output_path: str):
