@@ -40,9 +40,9 @@ class CovidReader(DatasetReader):
             self,
             sequence: str,
             structure: str,
-            predicted_loop_type: str,
-            seq_scored: int,
-            seq_id: str,
+            predicted_loop_type: Optional[str] = None,
+            seq_scored: Optional[int] = None,
+            seq_id: Optional[str] = None,
             reactivity: Optional[List[float]] = None,
             deg_Mg_pH10: Optional[List[float]] = None,
             deg_pH10: Optional[List[float]] = None,
@@ -53,23 +53,33 @@ class CovidReader(DatasetReader):
 
         sequence = self._tokenizer.tokenize(sequence)
         structure = self._tokenizer.tokenize(structure)
-        predicted_loop_type = self._tokenizer.tokenize(predicted_loop_type)
+
+        if predicted_loop_type is not None:
+            predicted_loop_type = self._tokenizer.tokenize(predicted_loop_type)
 
         if self._add_start_end_tokens:
             sequence = self._surround_with_start_end_tokens(sequence)
             structure = self._surround_with_start_end_tokens(structure)
-            predicted_loop_type = self._surround_with_start_end_tokens(predicted_loop_type)
+
+            if predicted_loop_type is not None:
+                predicted_loop_type = self._surround_with_start_end_tokens(predicted_loop_type)
 
         fields = {
             "sequence": TextField(sequence, {"tokens": SingleIdTokenIndexer("sequence")}),
             "structure": TextField(structure, {"tokens": SingleIdTokenIndexer("structure")}),
-            "predicted_loop_type": TextField(
+        }
+
+        if predicted_loop_type is not None:
+            fields["predicted_loop_type"] = TextField(
                 predicted_loop_type,
                 {"tokens": SingleIdTokenIndexer("predicted_loop_type")}
-            ),
-            "seq_scored": LabelField(label=seq_scored, skip_indexing=True),
-            "seq_id": MetadataField(metadata=seq_id)
-        }
+            )
+
+        if seq_scored is not None:
+            fields["seq_scored"] = LabelField(label=seq_scored, skip_indexing=True)
+
+        if seq_id is not None:
+            fields["seq_id"] = MetadataField(metadata=seq_id)
 
         if reactivity is not None:
             reactivity = np.array(reactivity)
@@ -112,16 +122,17 @@ class CovidReader(DatasetReader):
             for items in reader:
                 sequence = items["sequence"]
                 structure = items["structure"]
-                predicted_loop_type = items["predicted_loop_type"]
-                seq_scored = items["seq_scored"]
                 assert len(sequence) == len(structure)
-                assert len(predicted_loop_type) == len(structure)
+
+                predicted_loop_type = items.get("predicted_loop_type")
+                if predicted_loop_type is not None:
+                    assert len(predicted_loop_type) == len(structure)
 
                 instance = self.text_to_instance(
                     sequence=sequence,
                     structure=structure,
                     predicted_loop_type=predicted_loop_type,
-                    seq_scored=seq_scored,
+                    seq_scored=items.get("seq_scored"),
                     seq_id=items["seq_id"],
                     reactivity=items.get("reactivity"),
                     deg_Mg_pH10=items.get("deg_Mg_pH10"),
