@@ -17,7 +17,7 @@ local LOADER = import 'common/loader.jsonnet';
       "type": "from_archive",
       "archive_file": "presets/lm.model.tar.gz"
     },
-    "lm_is_trainable": false,
+    "lm_is_trainable": true,
     "lm_matrix_attention": {
       "type": "linear",
       "tensor_1_dim": 256,
@@ -60,14 +60,14 @@ local LOADER = import 'common/loader.jsonnet';
       "input_size": 192,
       "hidden_size": 128,
       "num_layers": 2,
-      "dropout": 0.5,
+      "dropout": 0.4,
       "bidirectional": true
     },
     "loss": {
       "type": "MSE",
       "calculate_on_scored": true
     },
-    "variational_dropout": 0.5
+    "variational_dropout": 0.3
   },
   "data_loader": LOADER['data_loader'],
   "trainer": {
