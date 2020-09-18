@@ -61,8 +61,8 @@
     "pin_memory": true
   },
   "trainer": {
-    "num_epochs": 50,
-    "patience": 2,
+    "num_epochs": 100,
+    "patience": 3,
     "cuda_device": 0
   }
 }
