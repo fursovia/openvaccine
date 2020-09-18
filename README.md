@@ -6,7 +6,7 @@ CUDA_VISIBLE_DEVICES="1" bash bin/train.sh gru
 ```
 
 ```bash
-CUDA_VISIBLE_DEVICES="1" bash bin/lm_train.sh bert
+CUDA_VISIBLE_DEVICES="1" bash bin/lm_train.sh bert_lm
 ```
 
 
