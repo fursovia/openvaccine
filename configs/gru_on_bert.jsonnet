@@ -67,7 +67,7 @@ local LOADER = import 'common/loader.jsonnet';
       "type": "MSE",
       "calculate_on_scored": true
     },
-    "variational_dropout": 0.1
+    "variational_dropout": 0.4
   },
   "data_loader": LOADER['data_loader'],
   "trainer": {
@@ -75,7 +75,7 @@ local LOADER = import 'common/loader.jsonnet';
     "patience": 15,
     "optimizer": {
       "type": "adam",
-      "lr": 0.0005
+      "lr": 0.001
     },
     "cuda_device": 0
   }

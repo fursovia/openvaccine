@@ -36,8 +36,10 @@ class CovidClassifier(Model):
 
         self._loss = loss
         self._masked_lm = masked_lm
-        if not lm_is_trainable and self._masked_lm is not None:
+        if self._masked_lm is not None:
             self._masked_lm._tokens_masker = None
+
+        if not lm_is_trainable and self._masked_lm is not None:
             self._masked_lm = self._masked_lm.eval()
 
         self._lm_matrix_attention = lm_matrix_attention
@@ -86,7 +88,7 @@ class CovidClassifier(Model):
 
         if self._matrix_attention is not None:
             similarity_scores = self._matrix_attention(contextual_embeddings, embeddings)
-            attention = masked_softmax(similarity_scores, mask, memory_efficient=True)
+            attention = masked_softmax(similarity_scores, mask, memory_efficient=False)
             att_vectors = weighted_sum(embeddings, attention)
 
             contextual_embeddings = torch.cat(
@@ -101,7 +103,7 @@ class CovidClassifier(Model):
             lm_contextual_embeddings = self._masked_lm(sequence, structure)["contextual_embeddings"]
 
             similarity_scores = self._lm_matrix_attention(contextual_embeddings, lm_contextual_embeddings)
-            attention = masked_softmax(similarity_scores, mask, memory_efficient=True)
+            attention = masked_softmax(similarity_scores, mask, memory_efficient=False)
             att_vectors = weighted_sum(lm_contextual_embeddings, attention)
 
             contextual_embeddings = torch.cat(
