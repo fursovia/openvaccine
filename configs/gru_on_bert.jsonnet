@@ -60,14 +60,14 @@ local LOADER = import 'common/loader.jsonnet';
       "input_size": 192,
       "hidden_size": 128,
       "num_layers": 2,
-      "dropout": 0.4,
+      "dropout": 0.5,
       "bidirectional": true
     },
     "loss": {
       "type": "MSE",
       "calculate_on_scored": true
     },
-    "variational_dropout": 0.4
+    "variational_dropout": 0.5
   },
   "data_loader": LOADER['data_loader'],
   "trainer": {
