@@ -1,0 +1,8 @@
+@@UNKNOWN@@
+A
+G
+C
+U
+<START>
+<END>
+@@MASK@@
