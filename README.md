@@ -35,6 +35,7 @@ git rev-parse --short HEAD
 * Try BiMPM model
 * Aggregate using GatedSum
 * InputVariationalDropout, Attention, LayerNorm, MatrixAttention, ResidualWithLayerDropout, Maxout, ScalarMix
+* Train on parsed data (reactivity)
 
 
 

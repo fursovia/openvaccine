@@ -56,18 +56,27 @@ local LOADER = import 'common/loader.jsonnet';
       }
     },
     "seq2seq_encoder": {
-      "type": "gru",
+      "type": "stacked_bidirectional_lstm",
       "input_size": 192,
       "hidden_size": 128,
       "num_layers": 2,
-      "dropout": 0.4,
-      "bidirectional": true
+      "recurrent_dropout_probability": 0.1,
+      "layer_dropout_probability": 0.1,
+      "use_highway": true
     },
     "loss": {
       "type": "MSE",
       "calculate_on_scored": true
     },
-    "variational_dropout": 0.3
+    "variational_dropout": 0.0,
+    "regularizer": {
+      "regexes": [
+        [".*", {
+          "type": "l2",
+          "alpha": 1e-07
+        }]
+      ]
+    }
   },
   "data_loader": LOADER['data_loader'],
   "trainer": {
