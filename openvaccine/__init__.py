@@ -1,4 +1,4 @@
-from .models import CovidClassifier, MaskedLanguageModel, TransferCovidClassifier
+from .models import CovidClassifier, MaskedLanguageModel
 from .reader import CovidReader
 from .predictor import CovidPredictor
 from .losses import MCRMSE, MSE
