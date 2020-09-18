@@ -32,6 +32,7 @@ local LOADER = import 'common/loader.jsonnet';
       "type": "MSE",
       "calculate_on_scored": true
     },
+    "variational_dropout": 0.3
   },
   "data_loader": LOADER['data_loader'],
   "trainer": {

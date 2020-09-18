@@ -4,7 +4,7 @@ import torch
 
 from allennlp.data import TextFieldTensors, Vocabulary
 from allennlp.models.model import Model
-from allennlp.modules import TextFieldEmbedder
+from allennlp.modules import TextFieldEmbedder, InputVariationalDropout
 
 from openvaccine.losses import Loss
 
@@ -17,6 +17,7 @@ class TransferCovidClassifier(Model):
             masked_lm: Model,  # MaskedLanguageModel
             predicted_loop_type_field_embedder: TextFieldEmbedder,
             loss: Loss,
+            variational_dropout: float = 0.0,
     ) -> None:
         super().__init__(vocab)
         self._masked_lm = masked_lm
@@ -24,6 +25,8 @@ class TransferCovidClassifier(Model):
         self._predicted_loop_type_field_embedder = predicted_loop_type_field_embedder
 
         self._loss = loss
+        self._variational_dropout = variational_dropout
+        self._dropout = InputVariationalDropout(p=self._variational_dropout)
 
         # we predict reactivity, deg_Mg_pH10, deg_Mg_50C, deg_pH10, deg_50C
         self._linear = torch.nn.Linear(
@@ -45,6 +48,9 @@ class TransferCovidClassifier(Model):
 
         contextual_embeddings = self._masked_lm(sequence, structure)["contextual_embeddings"]
         contextual_embeddings = torch.cat((contextual_embeddings, predicted_loop_type_embeddings), dim=-1)
+
+        if self._variational_dropout > 0.0:
+            contextual_embeddings = self._dropout(contextual_embeddings)
 
         logits = self._linear(contextual_embeddings)
 
