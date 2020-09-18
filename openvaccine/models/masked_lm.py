@@ -35,6 +35,9 @@ class MaskedLanguageModel(Model):
         self._loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
         self._perplexity = Perplexity()
 
+    def get_output_dim(self) -> int:
+        return self._seq2seq_encoder.get_output_dim()
+
     def forward(
         self, sequence: TextFieldTensors, structure: TextFieldTensors, **kwargs,
     ) -> Dict[str, torch.Tensor]:
@@ -43,7 +46,7 @@ class MaskedLanguageModel(Model):
         if self._tokens_masker is not None:
             sequence, targets = self._tokens_masker.mask_tokens(sequence)
         else:
-            targets = sequence
+            targets = None
 
         sequence_embeddings = self._sequence_field_embedder(sequence)
         structure_embeddings = self._structure_field_embedder(structure)
@@ -58,12 +61,13 @@ class MaskedLanguageModel(Model):
 
         output_dict = dict(contextual_embeddings=contextual_embeddings, logits=logits, mask=mask)
 
-        output_dict["loss"] = self._loss(
-            logits.transpose(1, 2),
-            # TODO: it is not always tokens-tokens
-            targets["tokens"]["tokens"],
-        )
-        self._perplexity(output_dict["loss"])
+        if targets is not None:
+            output_dict["loss"] = self._loss(
+                logits.transpose(1, 2),
+                # TODO: it is not always tokens-tokens
+                targets["tokens"]["tokens"],
+            )
+            self._perplexity(output_dict["loss"])
         return output_dict
 
     def get_metrics(self, reset: bool = False):
