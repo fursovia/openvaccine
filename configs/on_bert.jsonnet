@@ -9,7 +9,7 @@ local LOADER = import 'common/loader.jsonnet';
   "train_data_path": std.extVar("TRAIN_DATA_PATH"),
   "validation_data_path": std.extVar("VALID_DATA_PATH"),
     "vocabulary": {
-    "type": "from_files_and_instances",
+    "type": "extend",
     "directory": "presets/vocabulary"
   },
   "model": {
