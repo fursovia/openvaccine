@@ -4,7 +4,10 @@
 ```bash
 CUDA_VISIBLE_DEVICES="1" bash bin/train.sh gru
 ```
-CUDA_VISIBLE_DEVICES="2" bash bin/lm_train.sh bert
+
+```bash
+CUDA_VISIBLE_DEVICES="1" bash bin/lm_train.sh bert
+```
 
 
 ```bash
