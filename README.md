@@ -9,7 +9,6 @@ CUDA_VISIBLE_DEVICES="1" bash bin/train.sh gru
 CUDA_VISIBLE_DEVICES="1" bash bin/lm_train.sh bert_lm
 ```
 
-
 ```bash
 CUDA_VISIBLE_DEVICES="1" bash bin/predict.sh LOGDIR
 ```
@@ -36,6 +35,10 @@ git rev-parse --short HEAD
 * Aggregate using GatedSum
 * InputVariationalDropout, Attention, LayerNorm, MatrixAttention, ResidualWithLayerDropout, Maxout, ScalarMix
 * Train on parsed data (reactivity)
+* Estimate how external data helps 
+(two commits: one with external data, another is without this data. Only reactivity!)
+* Do a cross-validation (need to write some bash scripts) [https://www.kaggle.com/vbmokin/gru-lstm-mix-custom-loss-tuning-by-3d-visual]
+* Find the perfect learning rate
 
 
 
