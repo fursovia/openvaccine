@@ -8,6 +8,7 @@ from allennlp.modules import Seq2SeqEncoder, TextFieldEmbedder
 from allennlp.nn.util import get_text_field_mask
 
 
+# TODO: rename to a single_classifier and allow to train on any single-sequence
 @Model.register("reactivity_classifier")
 class ReactivityClassifier(Model):
     def __init__(
@@ -30,7 +31,7 @@ class ReactivityClassifier(Model):
             self,
             sequence: TextFieldTensors,
             structure: TextFieldTensors,
-            seq_id: Any,
+            seq_id: Optional[Any] = None,
             reactivity: Optional[torch.Tensor] = None,
             **kwargs,
     ) -> Dict[str, torch.Tensor]:
