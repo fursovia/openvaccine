@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 START_TOKEN = "<START>"
 END_TOKEN = "<END>"
+REACTIVITY_PADDING = -1000000
 
 
 @DatasetReader.register("covid_reader")
@@ -87,7 +88,7 @@ class CovidReader(DatasetReader):
 
         if reactivity is not None:
             reactivity = np.array(reactivity)
-            fields["reactivity"] = ArrayField(array=reactivity)
+            fields["reactivity"] = ArrayField(array=reactivity, padding_value=REACTIVITY_PADDING)
 
         if deg_Mg_pH10 is not None:
             deg_Mg_pH10 = np.array(deg_Mg_pH10)

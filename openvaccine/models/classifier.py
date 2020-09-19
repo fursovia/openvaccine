@@ -132,6 +132,8 @@ class CovidClassifier(Model):
 
         if target is not None:
             # TODO: slicing depends on whether we have start/end tokens
+            # target.size(1) works since we know that all samples in the train
+            # are of the same length
             target = target.transpose(1, 2)
             output_dict["loss"] = self._loss(
                 logits[:, 1:target.size(1) + 1, :].reshape((-1, 5)),

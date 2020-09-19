@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Any
+from typing import Dict, Optional, Any, Tuple
 
 import torch
 
@@ -6,6 +6,32 @@ from allennlp.data import TextFieldTensors, Vocabulary
 from allennlp.models.model import Model
 from allennlp.modules import Seq2SeqEncoder, TextFieldEmbedder
 from allennlp.nn.util import get_text_field_mask
+
+from openvaccine.reader import REACTIVITY_PADDING
+
+
+def slice_logits(logits: torch.Tensor, reactivity: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+
+    # logits: (bs, seq_len)
+    # reactivity: (bs, scored_len)
+    # scored_len <= seq_len
+
+    not_padded = (reactivity != REACTIVITY_PADDING).float()
+    scored_lengths = not_padded.sum(dim=1).long()
+
+    logits = torch.cat(
+        [
+            l[1:scored_lengths[i] + 1] for i, l in enumerate(logits)
+        ]
+    )
+
+    reactivity = torch.cat(
+        [
+            r[:scored_lengths[i]] for i, r in enumerate(reactivity)
+        ]
+    )
+
+    return logits, reactivity
 
 
 # TODO: rename to a single_classifier and allow to train on any single-sequence
@@ -57,12 +83,7 @@ class ReactivityClassifier(Model):
         )
 
         if reactivity is not None:
-
-            # (bs, seq_len, 1) -> (bs * seq_len, 1)
-            logits = logits[:, 1:reactivity.size(1) + 1, :].reshape(-1, 1)
-
-            # (bs, seq_len) -> (bs * seq_len, 1)
-            reactivity = reactivity.reshape(-1, 1)
+            logits, reactivity = slice_logits(logits.squeeze(), reactivity.squeeze())
 
             output_dict["loss"] = torch.nn.functional.mse_loss(reactivity, logits)
 
