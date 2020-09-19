@@ -70,6 +70,7 @@ class CovidClassifier(Model):
             predicted_loop_type: TextFieldTensors,
             seq_scored: torch.Tensor,
             seq_id: Any,
+            bpps: Optional[torch.Tensor] = None,
             target: Optional[torch.Tensor] = None,
             **kwargs,
     ) -> Dict[str, torch.Tensor]:
@@ -80,6 +81,18 @@ class CovidClassifier(Model):
         predicted_loop_type_embeddings = self._predicted_loop_type_field_embedder(predicted_loop_type)
 
         embeddings = torch.cat((sequence_embeddings, structure_embeddings, predicted_loop_type_embeddings), dim=-1)
+
+        if bpps is not None:
+            # TODO: add bpps aggregator
+            bpps = torch.cat(
+                (
+                    bpps.max(dim=-1, keepdim=True),
+                    bpps.sum(dim=-1, keepdim=True),
+                    bpps.mean(dim=-1, keepdim=True),
+                ),
+                dim=-1
+            )
+            embeddings = torch.cat((embeddings, bpps), dim=-1)
 
         if self._variational_dropout > 0.0:
             embeddings = self._dropout(embeddings)

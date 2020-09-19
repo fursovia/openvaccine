@@ -1,6 +1,7 @@
 from typing import List, Optional
 import logging
 import math
+from pathlib import Path
 
 import numpy as np
 import jsonlines
@@ -21,12 +22,14 @@ END_TOKEN = "<END>"
 class CovidReader(DatasetReader):
     def __init__(
             self,
-            max_sequence_length: int = None,
+            bpps_dir: Optional[str] = None,
+            max_sequence_length: Optional[int] = None,
             add_start_end_tokens: bool = True,
             lazy: bool = False,
     ) -> None:
         super().__init__(lazy=lazy)
 
+        self._bpps_dir = bpps_dir if bpps_dir is None else Path(bpps_dir)
         self._max_sequence_length = max_sequence_length or math.inf
         self._add_start_end_tokens = add_start_end_tokens
         self._tokenizer = CharacterTokenizer()
@@ -48,6 +51,7 @@ class CovidReader(DatasetReader):
             deg_pH10: Optional[List[float]] = None,
             deg_Mg_50C: Optional[List[float]] = None,
             deg_50C: Optional[List[float]] = None,
+            bpps: Optional[np.ndarray] = None,
             **kwargs
     ) -> Instance:
 
@@ -111,6 +115,9 @@ class CovidReader(DatasetReader):
             target = np.vstack((reactivity, deg_Mg_pH10, deg_Mg_50C, deg_pH10, deg_50C))
             fields["target"] = ArrayField(array=target)
 
+        if bpps is not None:
+            fields["bpps"] = ArrayField(array=bpps)
+
         return Instance(fields)
 
     def _read(self, file_path: str):
@@ -128,17 +135,24 @@ class CovidReader(DatasetReader):
                 if predicted_loop_type is not None:
                     assert len(predicted_loop_type) == len(structure)
 
+                seq_id = items.get("seq_id")
+                if self._bpps_dir is not None:
+                    bpps = np.load(self._bpps_dir / f"{seq_id}.npy")
+                else:
+                    bpps = None
+
                 instance = self.text_to_instance(
                     sequence=sequence,
                     structure=structure,
                     predicted_loop_type=predicted_loop_type,
                     seq_scored=items.get("seq_scored"),
-                    seq_id=items.get("seq_id"),
+                    seq_id=seq_id,
                     reactivity=items.get("reactivity"),
                     deg_Mg_pH10=items.get("deg_Mg_pH10"),
                     deg_pH10=items.get("deg_pH10"),
                     deg_Mg_50C=items.get("deg_Mg_50C"),
                     deg_50C=items.get("deg_50C"),
+                    bpps=bpps,
                 )
                 if instance.fields["sequence"].sequence_length() <= self._max_sequence_length:
                     yield instance
