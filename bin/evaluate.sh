@@ -8,6 +8,7 @@ allennlp predict ${LOGDIR}/model.tar.gz \
     --output-file ${LOGDIR}/valid_preds.json \
     --include-package openvaccine \
     --predictor covid_predictor \
+    --use-dataset-reader \
     --cuda-device 0
 
 PYTHONPATH=. python openvaccine/commands/evaluate.py \
