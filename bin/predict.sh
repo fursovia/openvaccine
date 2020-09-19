@@ -9,6 +9,7 @@ allennlp predict ${LOGDIR}/model.tar.gz \
     --output-file ${LOGDIR}/test_preds.json \
     --include-package openvaccine \
     --predictor covid_predictor \
+    --use-dataset-reader \
     --cuda-device 0
 
 bash bin/evaluate.sh ${LOGDIR}
