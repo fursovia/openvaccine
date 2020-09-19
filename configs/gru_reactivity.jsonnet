@@ -33,10 +33,10 @@ local LOADER = import 'common/loader.jsonnet';
     },
     "seq2seq_encoder": {
       "type": "gru",
-      "input_size": 192,
+      "input_size": 128,
       "hidden_size": 128,
       "num_layers": 2,
-      "dropout": 0.4,
+      "dropout": 0.3,
       "bidirectional": true
     }
   },
