@@ -21,13 +21,13 @@ def slice_logits(logits: torch.Tensor, reactivity: torch.Tensor) -> Tuple[torch.
 
     logits = torch.cat(
         [
-            l[1:scored_lengths[i] + 1] for i, l in enumerate(logits)
+            l[1:scored_lengths[i] + 1].view(-1) for i, l in enumerate(logits)
         ]
     )
 
     reactivity = torch.cat(
         [
-            r[:scored_lengths[i]] for i, r in enumerate(reactivity)
+            r[:scored_lengths[i]].view(-1) for i, r in enumerate(reactivity)
         ]
     )
 
@@ -83,7 +83,7 @@ class ReactivityClassifier(Model):
         )
 
         if reactivity is not None:
-            logits, reactivity = slice_logits(logits.squeeze(), reactivity.squeeze())
+            logits, reactivity = slice_logits(logits, reactivity)
 
             output_dict["loss"] = torch.nn.functional.mse_loss(reactivity, logits)
 
