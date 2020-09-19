@@ -47,7 +47,7 @@ local LOADER = import 'common/loader.jsonnet';
       "input_size": 195,
       "hidden_size": 128,
       "num_layers": 2,
-      "dropout": 0.4,
+      "dropout": 0.3,
       "bidirectional": true
     },
     "loss": {
