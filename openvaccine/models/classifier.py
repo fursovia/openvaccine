@@ -92,6 +92,8 @@ class CovidClassifier(Model):
                 ),
                 dim=-1
             )
+            # start-end tokens
+            bpps = torch.nn.functional.pad(bpps, [0, 0, 1, 1], value=0.0)
             embeddings = torch.cat((embeddings, bpps), dim=-1)
 
         if self._variational_dropout > 0.0:
