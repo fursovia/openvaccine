@@ -48,7 +48,7 @@ class ReactivityClassifier(Model):
             logits=torch.cat(
                 (
                     logits,
-                    torch.zeros(logits.size(0), logits.size(1), 4)
+                    torch.zeros(logits.size(0), logits.size(1), 4, device=logits.device)
                 ),
                 dim=-1
             ),
