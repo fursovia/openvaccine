@@ -86,7 +86,7 @@ class CovidClassifier(Model):
             # TODO: add bpps aggregator
             bpps = torch.cat(
                 (
-                    bpps.max(dim=-1, keepdim=True),
+                    bpps.max(dim=-1, keepdim=True).values,
                     bpps.sum(dim=-1, keepdim=True),
                     bpps.mean(dim=-1, keepdim=True),
                 ),
