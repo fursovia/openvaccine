@@ -39,6 +39,7 @@ git rev-parse --short HEAD
 (two commits: one with external data, another is without this data. Only reactivity!)
 * Do a cross-validation (need to write some bash scripts) [https://www.kaggle.com/vbmokin/gru-lstm-mix-custom-loss-tuning-by-3d-visual]
 * Find the perfect learning rate
+* Why there are many reactivity observations?
 
 
 
