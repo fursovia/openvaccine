@@ -15,18 +15,22 @@ class TestCovidModel:
 
     def test_from_params(self):
 
-        reader = openvaccine.CovidReader()
-        instances = reader.read(PROJECT_ROOT / "data" / "sample.jsonl")
-        vocab = Vocabulary.from_instances(instances)
-
-        batch = Batch(instances)
-        batch.index_instances(vocab)
-
         for config_path in CONFIG_DIR.glob("*.jsonnet"):
+            params = Params.from_file(
+                str(config_path), ext_vars={"TRAIN_DATA_PATH": "", "VALID_DATA_PATH": ""}
+            )
+
+            data_reader_params = params["dataset_reader"]
+            data_reader_params.pop("type")
+
+            reader = openvaccine.CovidReader.from_params(data_reader_params)
+            instances = reader.read(PROJECT_ROOT / "data" / "sample.jsonl")
+            vocab = Vocabulary.from_instances(instances)
+
+            batch = Batch(instances)
+            batch.index_instances(vocab)
+
             try:
-                params = Params.from_file(
-                    str(config_path), ext_vars={"TRAIN_DATA_PATH": "", "VALID_DATA_PATH": ""}
-                )
                 model = Model.from_params(params=params["model"], vocab=vocab)
             except Exception as e:
                 raise AssertionError(f"unable to load params from {config_path}, because {e}")

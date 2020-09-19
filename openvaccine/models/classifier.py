@@ -9,6 +9,7 @@ from allennlp.nn.util import get_text_field_mask, weighted_sum, masked_softmax
 from allennlp.nn.regularizers import RegularizerApplicator
 
 from openvaccine.losses import Loss
+from openvaccine.modules import Aggregator
 
 
 @Model.register("covid_classifier")
@@ -26,7 +27,8 @@ class CovidClassifier(Model):
             lm_matrix_attention: Optional[MatrixAttention] = None,
             variational_dropout: float = 0.0,
             matrix_attention: Optional[MatrixAttention] = None,
-            regularizer: RegularizerApplicator = None
+            bpps_aggegator: Optional[Aggregator] = None,
+            regularizer: RegularizerApplicator = None,
     ) -> None:
         super().__init__(vocab, regularizer)
         self._sequence_field_embedder = sequence_field_embedder
@@ -51,6 +53,8 @@ class CovidClassifier(Model):
 
         assert self._lm_matrix_attention is None or self._matrix_attention is None
 
+        self._bpps_aggegator = bpps_aggegator
+
         hidden_dim = self._seq2seq_encoder.get_output_dim()
         if self._matrix_attention is not None:
             hidden_dim += self._sequence_field_embedder.get_output_dim() + \
@@ -59,6 +63,9 @@ class CovidClassifier(Model):
 
         if self._masked_lm is not None:
             hidden_dim += self._masked_lm.get_output_dim()
+
+        if self._bpps_aggegator is not None:
+            hidden_dim += self._bpps_aggegator.get_output_dim()
 
         # we predict reactivity, deg_Mg_pH10, deg_Mg_50C, deg_pH10, deg_50C
         self._linear = torch.nn.Linear(hidden_dim, 5)
@@ -82,18 +89,8 @@ class CovidClassifier(Model):
 
         embeddings = torch.cat((sequence_embeddings, structure_embeddings, predicted_loop_type_embeddings), dim=-1)
 
-        if bpps is not None:
-            # TODO: add bpps aggregator
-            bpps = torch.cat(
-                (
-                    bpps.max(dim=-1, keepdim=True).values,
-                    bpps.sum(dim=-1, keepdim=True),
-                    bpps.mean(dim=-1, keepdim=True),
-                ),
-                dim=-1
-            )
-            # start-end tokens
-            bpps = torch.nn.functional.pad(bpps, [0, 0, 1, 1], value=0.0)
+        if self._bpps_aggegator is not None:
+            bpps = self._bpps_aggegator(bpps)
             embeddings = torch.cat((embeddings, bpps), dim=-1)
 
         if self._variational_dropout > 0.0:
