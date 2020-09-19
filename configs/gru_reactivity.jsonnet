@@ -1,5 +1,4 @@
 local VOCAB = import 'common/vocab.jsonnet';
-local LOADER = import 'common/loader.jsonnet';
 
 {
   "dataset_reader": {
@@ -40,7 +39,13 @@ local LOADER = import 'common/loader.jsonnet';
       "bidirectional": true
     }
   },
-  "data_loader": LOADER['data_loader'],
+  "data_loader": {
+    "batch_size": 256,
+    "shuffle": true,
+    "num_workers": 0,
+    // https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723
+    "pin_memory": true
+  },
   "trainer": {
     "num_epochs": 200,
     "patience": 15,
