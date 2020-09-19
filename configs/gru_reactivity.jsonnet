@@ -31,16 +31,6 @@ local LOADER = import 'common/loader.jsonnet';
         }
       }
     },
-    "predicted_loop_type_field_embedder": {
-      "token_embedders": {
-        "tokens": {
-          "type": "embedding",
-          "embedding_dim": 64,
-          "trainable": true,
-          "vocab_namespace": "predicted_loop_type"
-        }
-      }
-    },
     "seq2seq_encoder": {
       "type": "gru",
       "input_size": 192,

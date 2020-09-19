@@ -15,13 +15,11 @@ class ReactivityClassifier(Model):
             vocab: Vocabulary,
             sequence_field_embedder: TextFieldEmbedder,
             structure_field_embedder: TextFieldEmbedder,
-            predicted_loop_type_field_embedder: TextFieldEmbedder,
             seq2seq_encoder: Seq2SeqEncoder,
     ) -> None:
         super().__init__(vocab)
         self._sequence_field_embedder = sequence_field_embedder
         self._structure_field_embedder = structure_field_embedder
-        self._predicted_loop_type_field_embedder = predicted_loop_type_field_embedder
         self._seq2seq_encoder = seq2seq_encoder
 
         hidden_dim = self._seq2seq_encoder.get_output_dim()
@@ -32,7 +30,6 @@ class ReactivityClassifier(Model):
             self,
             sequence: TextFieldTensors,
             structure: TextFieldTensors,
-            predicted_loop_type: TextFieldTensors,
             seq_id: Any,
             reactivity: Optional[torch.Tensor] = None,
             **kwargs,
@@ -41,9 +38,8 @@ class ReactivityClassifier(Model):
 
         sequence_embeddings = self._sequence_field_embedder(sequence)
         structure_embeddings = self._structure_field_embedder(structure)
-        predicted_loop_type_embeddings = self._predicted_loop_type_field_embedder(predicted_loop_type)
 
-        embeddings = torch.cat((sequence_embeddings, structure_embeddings, predicted_loop_type_embeddings), dim=-1)
+        embeddings = torch.cat((sequence_embeddings, structure_embeddings), dim=-1)
 
         contextual_embeddings = self._seq2seq_encoder(embeddings, mask)
         logits = self._linear(contextual_embeddings)
