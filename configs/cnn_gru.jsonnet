@@ -47,16 +47,16 @@ local LOADER = import 'common/loader.jsonnet';
         {
           "type": "same_cnn_encoder",
           "input_dim": 192,
-          "out_dim": 64,
-          "kernel_size": 3,
+          "out_dim": 128,
+          "kernel_size": 5,
           "bidirectional": true
         },
         {
           "type": "gru",
-          "input_size": 64,
+          "input_size": 128,
           "hidden_size": 128,
           "num_layers": 2,
-          "dropout": 0.4,
+          "dropout": 0.3,
           "bidirectional": true
         },
       ]
