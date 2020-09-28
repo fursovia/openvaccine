@@ -14,6 +14,3 @@ for dir in ${DATA_DIR}/* ; do
         --serialization-dir ./logs/${EXP_NAME}/${fold} \
         --include-package openvaccine
 done
-
-
-PYTHONPATH=. python openvaccine/commands/aggregate_metrics.py ./logs/${EXP_NAME} "metrics.json"

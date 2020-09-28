@@ -18,8 +18,9 @@ for dir in ${LOGDIR}/* ; do
 done
 
 bash bin/kevaluate.sh ${LOGDIR}
-PYTHONPATH=. python openvaccine/commands/aggregate_preds.py ${LOGDIR}
+PYTHONPATH=. python openvaccine/commands/aggregate_metrics.py ${LOGDIR} --metrics-name "metrics.json"
 
+PYTHONPATH=. python openvaccine/commands/aggregate_preds.py ${LOGDIR}
 PYTHONPATH=. python openvaccine/commands/submit.py \
     ${LOGDIR}/test_preds.json \
     ${LOGDIR}/${SUBMIT_NAME}_submit.csv
