@@ -24,4 +24,4 @@ for dir in ${DATA_DIR}/* ; do
 done
 
 
-PYTHONPATH=. python openvaccine/commands/aggregate.py ${LOGDIR}
+PYTHONPATH=. python openvaccine/commands/aggregate_metrics.py ${LOGDIR}
