@@ -22,3 +22,7 @@ def main(log_dir: str):
 
     mcrmse = metrics["MCRMSE"].mean()
     typer.secho(f"MCRMSE = {mcrmse:.3f}", fg="green")
+
+
+if __name__ == "__main__":
+    typer.run(main)
