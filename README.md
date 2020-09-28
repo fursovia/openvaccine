@@ -21,6 +21,15 @@ CUDA_VISIBLE_DEVICES="1" bash bin/evaluate.sh LOGDIR
 git rev-parse --short HEAD
 ```
 
+
+```bash
+TRAIN_DATA_PATH=./data/sample.jsonl \
+    VALID_DATA_PATH=./data/sample.jsonl \
+    PYTHONPATH=. python openvaccine/commands/run_optuna.py \
+        ./configs/optuna/gru.jsonnet \
+        test
+```
+
 ## To-Do
 
 * Calculate MCRMSE on the full dataset (not batches)
