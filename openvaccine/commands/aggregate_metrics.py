@@ -4,6 +4,8 @@ from pathlib import Path
 import typer
 import pandas as pd
 
+METRICS = ("MCRMSE", "best_validation_loss")
+
 
 def main(log_dir: str, metrics_name: str = "kaggle_metrics.json"):
 
@@ -17,11 +19,15 @@ def main(log_dir: str, metrics_name: str = "kaggle_metrics.json"):
         metrics.append(curr_metrics)
 
     metrics = pd.DataFrame(metrics)
-    for idx, row in metrics.iterrows():
-        typer.secho(f"({row.fold}) MCRMSE = {row.MCRMSE:.3f}", fg="red")
 
-    mcrmse = metrics["MCRMSE"].mean()
-    typer.secho(f"MCRMSE = {mcrmse:.3f}", fg="green")
+    for metric_name in METRICS:
+        if metric_name in metrics.columns:
+            for idx, row in metrics.iterrows():
+                value = row[metric_name]
+                typer.secho(f"({row.fold}) {metric_name} = {value:.3f}", fg="red")
+
+            mean_value = metrics[metric_name].mean()
+            typer.secho(f"{metric_name} = {mean_value:.3f}", fg="green")
 
 
 if __name__ == "__main__":
