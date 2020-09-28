@@ -20,7 +20,7 @@ for dir in ${DATA_DIR}/* ; do
     PYTHONPATH=. python openvaccine/commands/evaluate.py \
         ${PREDS_PATH} \
         ${VALID_PATH} \
-        --out-path ${LOGDIR}/${fold}/metrics.json
+        --out-path ${LOGDIR}/${fold}/kaggle_metrics.json
 done
 
 

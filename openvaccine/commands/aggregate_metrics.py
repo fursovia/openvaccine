@@ -5,12 +5,12 @@ import typer
 import pandas as pd
 
 
-def main(log_dir: str):
+def main(log_dir: str, metrics_name: str = "kaggle_metrics.json"):
 
     metrics = []
     for path in Path(log_dir).iterdir():
 
-        with open(str(path / "metrics.json")) as f:
+        with open(str(path / metrics_name)) as f:
             curr_metrics = json.load(f)
 
         curr_metrics["fold"] = path.name
