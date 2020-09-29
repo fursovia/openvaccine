@@ -2,6 +2,7 @@ from functools import partial
 
 import typer
 import optuna
+# from optuna.integration.allennlp import dump_best_config
 
 
 def set_gru_trial(trial: optuna.Trial):
@@ -46,7 +47,7 @@ def main(
         config_path: str,
         serialization_dir: str,
         num_trials: int = 500,
-        n_jobs: int = 1,
+        n_jobs: int = 5,
         timeout: int = 60 * 60 * 10,
         study_name: str = "optuna_openvaccine"
 ):
@@ -65,6 +66,8 @@ def main(
         n_trials=num_trials,
         timeout=timeout,
     )
+
+    # dump_best_config(CONFIG_PATH, BEST_CONFIG_PATH, study)
 
 
 if __name__ == "__main__":
