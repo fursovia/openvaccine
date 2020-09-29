@@ -23,12 +23,14 @@ git rev-parse --short HEAD
 
 
 ```bash
-CUDA_VISIBLE_DEVICES="3" \
-    TRAIN_DATA_PATH=./data/train.jsonl \
-    VALID_DATA_PATH=./data/valid.jsonl \
+CUDA_VISIBLE_DEVICES="" \
+    TRAIN_DATA_PATH=./data/sample.jsonl \
+    VALID_DATA_PATH=./data/sample.jsonl \
     PYTHONPATH=. python openvaccine/commands/run_optuna.py \
-        ./configs/optuna/gru.jsonnet \
-        logs/optuna
+        ./configs/optuna/gru_with_bpps.jsonnet \
+        logs/optuna \
+        --num-trials 10 \
+        --n-jobs 1
 ```
 
 ## To-Do
