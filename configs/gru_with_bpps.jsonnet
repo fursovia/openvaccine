@@ -16,7 +16,7 @@ local LOADER = import 'common/loader.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 64,
+          "embedding_dim": 128,
           "trainable": true,
           "vocab_namespace": "sequence"
         }
@@ -36,7 +36,7 @@ local LOADER = import 'common/loader.jsonnet';
       "token_embedders": {
         "tokens": {
           "type": "embedding",
-          "embedding_dim": 64,
+          "embedding_dim": 32,
           "trainable": true,
           "vocab_namespace": "predicted_loop_type"
         }
@@ -44,21 +44,21 @@ local LOADER = import 'common/loader.jsonnet';
     },
     "seq2seq_encoder": {
       "type": "gru",
-      "input_size": 195,
-      "hidden_size": 128,
-      "num_layers": 2,
-      "dropout": 0.3,
+      "input_size": 224,
+      "hidden_size": 256,
+      "num_layers": 3,
+      "dropout": 0.35,
       "bidirectional": true
     },
     "loss": {
       "type": "MSE",
       "calculate_on_scored": true
     },
-    "variational_dropout": 0.1,
+    "variational_dropout": 0.4,
     "matrix_attention": {
       "type": "linear",
-      "tensor_1_dim": 256,
-      "tensor_2_dim": 195,
+      "tensor_1_dim": 512,
+      "tensor_2_dim": 224,
       "combination": "x,y",
       "activation": null
     },
@@ -93,7 +93,7 @@ local LOADER = import 'common/loader.jsonnet';
 //    },
     "optimizer": {
       "type": "adam",
-      "lr": 0.001
+      "lr": 0.0015
     },
     "cuda_device": 0
   }
