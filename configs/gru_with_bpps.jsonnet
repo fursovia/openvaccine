@@ -44,7 +44,7 @@ local LOADER = import 'common/loader.jsonnet';
     },
     "seq2seq_encoder": {
       "type": "gru",
-      "input_size": 224,
+      "input_size": 227,
       "hidden_size": 256,
       "num_layers": 3,
       "dropout": 0.35,
@@ -58,7 +58,7 @@ local LOADER = import 'common/loader.jsonnet';
     "matrix_attention": {
       "type": "linear",
       "tensor_1_dim": 512,
-      "tensor_2_dim": 224,
+      "tensor_2_dim": 227,
       "combination": "x,y",
       "activation": null
     },
