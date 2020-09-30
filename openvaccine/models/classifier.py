@@ -64,7 +64,7 @@ class CovidClassifier(Model):
         if self._masked_lm is not None:
             hidden_dim += self._masked_lm.get_output_dim()
 
-        if self._bpps_aggegator is not None:
+        if self._bpps_aggegator is not None and self._matrix_attention is not None:
             hidden_dim += self._bpps_aggegator.get_output_dim()
 
         # we predict reactivity, deg_Mg_pH10, deg_Mg_50C, deg_pH10, deg_50C
