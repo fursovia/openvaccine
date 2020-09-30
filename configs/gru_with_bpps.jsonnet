@@ -55,13 +55,13 @@ local LOADER = import 'common/loader.jsonnet';
       "calculate_on_scored": true
     },
     "variational_dropout": 0.4,
-    "matrix_attention": {
-      "type": "linear",
-      "tensor_1_dim": 512,
-      "tensor_2_dim": 227,
-      "combination": "x,y",
-      "activation": null
-    },
+//    "matrix_attention": {
+//      "type": "linear",
+//      "tensor_1_dim": 512,
+//      "tensor_2_dim": 227,
+//      "combination": "x,y",
+//      "activation": null
+//    },
     "bpps_aggegator": "max_mean_sum_agg",
     "regularizer": {
       "regexes": [
