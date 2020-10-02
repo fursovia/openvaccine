@@ -19,9 +19,6 @@ class StackEncoder(Seq2SeqEncoder):
         any_bidirectional = any(encoder.is_bidirectional() for encoder in encoders)
         self.bidirectional = all_bidirectional
 
-        if all_bidirectional != any_bidirectional:
-            raise ValueError("All encoders need to match in bidirectionality.")
-
         if len(self.encoders) < 1:
             raise ValueError("Need at least one encoder.")
 
