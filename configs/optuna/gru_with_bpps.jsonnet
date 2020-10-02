@@ -38,8 +38,6 @@ local predicted_loop_type_emb_dim = 32;
 local hidden_size = 256;
 local num_layers = 3;
 local gru_dropout = 0.35;
-//local bidirectional_raw = std.extVar('bidirectional');
-//local bidirectional = if bidirectional_raw == 'true' then true else false;
 local bidirectional = true;
 
 local variational_dropout = 0.4;
