@@ -52,7 +52,6 @@ class FinalClassifier(Model):
         if not lm_is_trainable and self._masked_lm is not None:
             self._masked_lm = self._masked_lm.eval()
         self._lm_matrix_attention = lm_matrix_attention
-        assert self._masked_lm is None or (self._masked_lm is not None and self._lm_matrix_attention is not None)
 
         self._lm_dropout = InputVariationalDropout(p=lm_dropout)
         self._emb_dropout = InputVariationalDropout(p=emb_dropout)
@@ -112,17 +111,26 @@ class FinalClassifier(Model):
         if self._masked_lm is not None:
             lm_contextual_embeddings = self._masked_lm(sequence, structure)["contextual_embeddings"]
 
-            similarity_scores = self._lm_matrix_attention(contextual_embeddings, lm_contextual_embeddings)
-            attention = masked_softmax(similarity_scores, mask, memory_efficient=False)
-            att_vectors = weighted_sum(lm_contextual_embeddings, attention)
+            if self._lm_matrix_attention is not None:
+                similarity_scores = self._lm_matrix_attention(contextual_embeddings, lm_contextual_embeddings)
+                attention = masked_softmax(similarity_scores, mask, memory_efficient=False)
+                att_vectors = weighted_sum(lm_contextual_embeddings, attention)
 
-            contextual_embeddings = torch.cat(
-                [
-                    contextual_embeddings,
-                    att_vectors
-                ],
-                dim=-1
-            )
+                contextual_embeddings = torch.cat(
+                    [
+                        contextual_embeddings,
+                        att_vectors
+                    ],
+                    dim=-1
+                )
+            else:
+                contextual_embeddings = torch.cat(
+                    [
+                        contextual_embeddings,
+                        lm_contextual_embeddings
+                    ],
+                    dim=-1
+                )
 
         logits = self._linear(contextual_embeddings)
         output_dict = dict(logits=logits, seq_id=seq_id)
