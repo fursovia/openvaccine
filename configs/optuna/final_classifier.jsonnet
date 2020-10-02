@@ -1,6 +1,31 @@
-local VOCAB = import 'common/vocab.jsonnet';
-local LOADER = import 'common/loader.jsonnet';
+local VOCAB = {
+  "vocabulary": {
+    "tokens_to_add": {
+      "sequence": [
+        "<START>",
+        "<END>"
+      ],
+      "structure": [
+        "<START>",
+        "<END>"
+      ],
+      "predicted_loop_type": [
+        "<START>",
+        "<END>"
+      ]
+    },
+  }
+};
 
+local LOADER = {
+  "data_loader": {
+    "batch_size": 64,
+    "shuffle": true,
+    "num_workers": 0,
+    // https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723
+    "pin_memory": true
+  }
+};
 
 local bpps_dir = std.extVar('bpps_dir');
 local sequence_emb_dim = std.parseInt(std.extVar('sequence_emb_dim'));
@@ -25,8 +50,8 @@ local lstm_hidden_size = std.parseInt(std.extVar('lstm_hidden_size'));
 local lstm_num_layers = std.parseInt(std.extVar('lstm_num_layers'));
 local lstm_dropout = std.parseJson(std.extVar('lstm_dropout'));
 
-local augmented_lstm_hidden_size = std.parseInt(std.extVar('augmented_lstm_hidden_size'));
-local augmented_lstm_dropout = std.parseJson(std.extVar('augmented_lstm_dropout'));
+//local augmented_lstm_hidden_size = std.parseInt(std.extVar('augmented_lstm_hidden_size'));
+//local augmented_lstm_dropout = std.parseJson(std.extVar('augmented_lstm_dropout'));
 
 local alternating_lstm_hidden_size = std.parseInt(std.extVar('alternating_lstm_hidden_size'));
 local alternating_lstm_num_layers = std.parseInt(std.extVar('alternating_lstm_num_layers'));
@@ -53,13 +78,13 @@ local base_encoders = {
       "dropout": lstm_dropout,
       "bidirectional": true
     },
-    "augmented_lstm": {
-      "type": "augmented_lstm",
-      "input_size": input_size,
-      "hidden_size": augmented_lstm_hidden_size,
-      "recurrent_dropout_probability": augmented_lstm_dropout,
-      "use_highway": true,
-    },
+//    "augmented_lstm": {
+//      "type": "augmented_lstm",
+//      "input_size": input_size,
+//      "hidden_size": augmented_lstm_hidden_size,
+//      "recurrent_dropout_probability": augmented_lstm_dropout,
+//      "use_highway": true,
+//    },
     "alternating_lstm": {
       "type": "alternating_lstm",
       "input_size": input_size,
@@ -80,7 +105,7 @@ local base_encoders = {
 local encoders = {
     "gru": base_encoders["gru"],
     "lstm": base_encoders["lstm"],
-    "augmented_lstm": base_encoders["augmented_lstm"],
+//    "augmented_lstm": base_encoders["augmented_lstm"],
     "alternating_lstm": base_encoders["alternating_lstm"],
     "same_cnn_encoder": base_encoders["same_cnn_encoder"],
     "stack_lstm_gru": {
@@ -90,13 +115,13 @@ local encoders = {
         base_encoders["gru"],
       ]
     },
-    "stack_augmented_lstm_gru": {
-      "type": "stack",
-      "encoders": [
-        base_encoders["augmented_lstm"],
-        base_encoders["gru"],
-      ]
-    },
+//    "stack_augmented_lstm_gru": {
+//      "type": "stack",
+//      "encoders": [
+//        base_encoders["augmented_lstm"],
+//        base_encoders["gru"],
+//      ]
+//    },
     "stack_alternating_lstm_gru": {
       "type": "stack",
       "encoders": [
@@ -273,8 +298,8 @@ local bpp_dropout = std.parseJson(std.extVar('bpp_dropout'));
   },
   "data_loader": LOADER['data_loader'],
   "trainer": {
-    "num_epochs": 2,
-    "patience": 1,
+    "num_epochs": 200,
+    "patience": 10,
 //    "learning_rate_scheduler": {
 //      "type": "reduce_on_plateau",
 //      "factor": 0.5,
@@ -285,6 +310,6 @@ local bpp_dropout = std.parseJson(std.extVar('bpp_dropout'));
       "type": "adam",
       "lr": 0.0015
     },
-    "cuda_device": -1
+    "cuda_device": 0
   }
 }

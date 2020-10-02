@@ -16,10 +16,10 @@ BASE_PARAMS = {
         "lstm_num_layers": 2,
         "lstm_dropout": 0.4
     },
-    "augmented_lstm": {
-        "augmented_lstm_hidden_size": 128,
-        "augmented_lstm_dropout": 0.4
-    },
+    # "augmented_lstm": {
+    #     "augmented_lstm_hidden_size": 128,
+    #     "augmented_lstm_dropout": 0.4
+    # },
     "alternating_lstm": {
         "alternating_lstm_hidden_size": 128,
         "alternating_lstm_num_layers": 128,
@@ -36,11 +36,11 @@ BASE_PARAMS = {
 NAMES_TO_ENCODERS = {
     "gru": ["gru"],
     "lstm": ["lstm"],
-    "augmented_lstm": ["augmented_lstm"],
+    # "augmented_lstm": ["augmented_lstm"],
     "alternating_lstm": ["alternating_lstm"],
     "same_cnn_encoder": ["same_cnn_encoder"],
     "stack_lstm_gru": ["lstm", "gru"],
-    "stack_augmented_lstm_gru": ["augmented_lstm", "gru"],
+    # "stack_augmented_lstm_gru": ["augmented_lstm", "gru"],
     "stack_alternating_lstm_gru": ["alternating_lstm", "gru"],
     "stack_same_cnn_encoder_gru": ["same_cnn_encoder", "gru"],
     "stack_same_cnn_encoder_lstm": ["same_cnn_encoder", "lstm"],
@@ -53,6 +53,9 @@ def set_trial(trial: optuna.Trial):
         # "max_sum_nb_agg", "cnn_max_sum_nb_agg"
         trial.suggest_categorical("bpps_aggegator", ["null", "max_mean_sum_agg", ])
         trial.suggest_float("bpp_dropout", 0.0, 0.7)
+    else:
+        os.environ["bpps_aggegator"] = "null"
+        os.environ["bpp_dropout"] = "0.0"
 
     trial.suggest_categorical("sequence_emb_dim", [16, 32, 64, 128])
     trial.suggest_categorical("structure_emb_dim", [16, 32, 64, 128])
@@ -64,11 +67,11 @@ def set_trial(trial: optuna.Trial):
         [
             "gru",
             "lstm",
-            "augmented_lstm",
+            # "augmented_lstm",
             "alternating_lstm",
             "same_cnn_encoder",
             "stack_lstm_gru",
-            "stack_augmented_lstm_gru",
+            # "stack_augmented_lstm_gru",
             "stack_alternating_lstm_gru",
             "stack_same_cnn_encoder_gru",
             "stack_same_cnn_encoder_lstm"
@@ -83,11 +86,11 @@ def set_trial(trial: optuna.Trial):
     elif encoder == "lstm":
         trial.suggest_categorical("lstm_hidden_size", [16, 32, 64, 128])
         trial.suggest_categorical("lstm_num_layers", [1, 2, 3])
-        trial.suggest_float("augmented_lstm_dropout", 0.0, 0.7)
-
-    elif encoder == "augmented_lstm":
-        trial.suggest_categorical("augmented_lstm_hidden_size", [16, 32, 64, 128])
         trial.suggest_float("lstm_dropout", 0.0, 0.7)
+
+    # elif encoder == "augmented_lstm":
+    #     trial.suggest_categorical("augmented_lstm_hidden_size", [16, 32, 64, 128])
+    #     trial.suggest_float("augmented_lstm_dropout", 0.0, 0.7)
 
     elif encoder == "alternating_lstm":
         trial.suggest_categorical("alternating_lstm_hidden_size", [16, 32, 64, 128])
@@ -101,19 +104,19 @@ def set_trial(trial: optuna.Trial):
     elif encoder == "stack_lstm_gru":
         trial.suggest_categorical("lstm_hidden_size", [16, 32, 64, 128])
         trial.suggest_categorical("lstm_num_layers", [1, 2, 3])
-        trial.suggest_float("augmented_lstm_dropout", 0.0, 0.7)
-
-        trial.suggest_categorical("gru_hidden_size", [16, 32, 64, 128])
-        trial.suggest_categorical("gru_num_layers", [1, 2, 3])
-        trial.suggest_float("gru_dropout", 0.0, 0.7)
-
-    elif encoder == "stack_augmented_lstm_gru":
-        trial.suggest_categorical("augmented_lstm_hidden_size", [16, 32, 64, 128])
         trial.suggest_float("lstm_dropout", 0.0, 0.7)
 
         trial.suggest_categorical("gru_hidden_size", [16, 32, 64, 128])
         trial.suggest_categorical("gru_num_layers", [1, 2, 3])
         trial.suggest_float("gru_dropout", 0.0, 0.7)
+
+    # elif encoder == "stack_augmented_lstm_gru":
+    #     trial.suggest_categorical("augmented_lstm_hidden_size", [16, 32, 64, 128])
+    #     trial.suggest_float("lstm_dropout", 0.0, 0.7)
+    #
+    #     trial.suggest_categorical("gru_hidden_size", [16, 32, 64, 128])
+    #     trial.suggest_categorical("gru_num_layers", [1, 2, 3])
+    #     trial.suggest_float("gru_dropout", 0.0, 0.7)
 
     elif encoder == "stack_alternating_lstm_gru":
         trial.suggest_categorical("alternating_lstm_hidden_size", [16, 32, 64, 128])
@@ -138,18 +141,21 @@ def set_trial(trial: optuna.Trial):
 
         trial.suggest_categorical("lstm_hidden_size", [16, 32, 64, 128])
         trial.suggest_categorical("lstm_num_layers", [1, 2, 3])
-        trial.suggest_float("augmented_lstm_dropout", 0.0, 0.7)
+        trial.suggest_float("lstm_dropout", 0.0, 0.7)
 
     for name, params in BASE_PARAMS.items():
         if name not in NAMES_TO_ENCODERS[encoder]:
             for key, val in params.items():
-                os.environ[key] = val
+                os.environ[key] = str(val)
 
     trial.suggest_categorical("structure_field_attention", ["linear", "bilinear", "null"])
     trial.suggest_categorical("predicted_loop_type_field_attention", ["linear", "bilinear", "null"])
 
-    trial.suggest_categorical("masked_lm", ["null", "presets/lm.model.tar.gz"])
-    trial.suggest_categorical("lm_is_trainable", ["true", "false"])
+    masked_lm = trial.suggest_categorical("masked_lm", ["null", "presets/lm.model.tar.gz"])
+    if masked_lm != "null":
+        trial.suggest_categorical("lm_is_trainable", ["true", "false"])
+    else:
+        os.environ["lm_is_trainable"] = "false"
 
     trial.suggest_float("lm_dropout", 0.0, 0.7)
 
@@ -180,8 +186,8 @@ def main(
         study_name: str = "optuna_openvaccine"
 ):
     study = optuna.create_study(
-        storage="sqlite:///result/trial.db",
-        sampler=optuna.samplers.TPESampler(seed=24),
+        storage="sqlite:///result/final_classifier.db",
+        sampler=optuna.samplers.TPESampler(seed=245),
         study_name=study_name,
         direction="minimize",
         load_if_exists=True,
