@@ -20,7 +20,7 @@ local predicted_loop_type_emb_dim = 64;
 
 //local bpps_dir = "null";
 local bpps_dir = "data/raw_data/bpps";
-local bpp_dropout = 0.4;
+local bpp_dropout = 0.55;
 // should try to change
 //local bpps_aggegator = "null";
 local bpps_aggegator = "max_mean_agg";
@@ -177,8 +177,8 @@ local predicted_loop_type_field_attentions = {
 };
 
 
-local lm_dropout = 0.5;
-local emb_dropout = 0.17;
+local lm_dropout = 0.65;
+local emb_dropout = 0.20;
 
 {
   "dataset_reader": {
