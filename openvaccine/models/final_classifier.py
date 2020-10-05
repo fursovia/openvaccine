@@ -140,15 +140,20 @@ class FinalClassifier(Model):
             # TODO: slicing depends on whether we have start/end tokens
             # target.size(1) works since we know that all samples in the train
             # are of the same length
+
+            target = target.transpose(1, 2)
+            num_tokens = target.size(1)
+            target = target.reshape((-1, 5))
+
             if signal_to_noise is not None:
                 weight = torch.log(signal_to_noise.view(-1) + 1.1) / 2
+                weight = torch.repeat_interleave(weight, repeats=num_tokens)
             else:
                 weight = None
 
-            target = target.transpose(1, 2)
             output_dict["loss"] = self._loss(
-                logits[:, 1:target.size(1) + 1, :].reshape((-1, 5)),
-                target.reshape((-1, 5)),
+                logits[:, 1:num_tokens + 1, :].reshape((-1, 5)),
+                target,
                 weight
             )
         return output_dict
