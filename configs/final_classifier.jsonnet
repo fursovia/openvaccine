@@ -219,7 +219,7 @@ local bpp_dropout = 0.0;
     "seq2seq_encoder": encoders[encoder],
 
     "loss": {
-      "type": "MCRMSE",
+      "type": "MSE",
       "calculate_on_scored": true
     },
     "structure_field_attention": structure_field_attentions[structure_field_attention],

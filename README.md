@@ -10,7 +10,7 @@ CUDA_VISIBLE_DEVICES="3" bash bin/ktrain.sh final_classifier
 ```
 
 ```bash
-CUDA_VISIBLE_DEVICES="1" bash bin/lm_train.sh bert_lm
+CUDA_VISIBLE_DEVICES="3" bash bin/lm_train.sh gru_lm
 ```
 
 ```bash
