@@ -1,20 +1,6 @@
 local VOCAB = {
-  "vocabulary": {
-    "tokens_to_add": {
-      "sequence": [
-        "<START>",
-        "<END>"
-      ],
-      "structure": [
-        "<START>",
-        "<END>"
-      ],
-      "predicted_loop_type": [
-        "<START>",
-        "<END>"
-      ]
-    },
-  }
+    "type": "extend",
+    "directory": "presets/vocabulary"
 };
 
 local LOADER = {
