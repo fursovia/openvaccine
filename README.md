@@ -6,7 +6,7 @@ CUDA_VISIBLE_DEVICES="1" bash bin/train.sh gru
 ```
 
 ```bash
-CUDA_VISIBLE_DEVICES="3" bash bin/ktrain.sh final_classifier
+CUDA_VISIBLE_DEVICES="2" bash bin/ktrain.sh final_classifier
 ```
 
 ```bash

@@ -23,7 +23,7 @@ local bpps_dir = "data/raw_data/bpps";
 local bpp_dropout = 0.4;
 // should try to change
 //local bpps_aggegator = "null";
-local bpps_aggegator = "max_mean_nb_agg";
+local bpps_aggegator = "max_mean_sum_agg";
 local bpps_dims = {
   "max_mean_sum_agg": 3,
   "max_mean_agg": 2,
@@ -38,16 +38,16 @@ local gru_num_layers = 3;
 local gru_dropout = 0.35;
 
 // this is for stack_lstm_gru
-local lstm_hidden_size = 16;
+//local lstm_hidden_size = 16;
 // 3 is ok too
-local lstm_num_layers = 1;
-local lstm_dropout = 0.25;
+//local lstm_num_layers = 1;
+//local lstm_dropout = 0.25;
 
 
 // this is for lstm
-//local lstm_hidden_size = 128;
-//local lstm_num_layers = 3;
-//local lstm_dropout = 0.23;
+local lstm_hidden_size = 128;
+local lstm_num_layers = 3;
+local lstm_dropout = 0.23;
 
 // this is for stack_alternating_lstm_gru
 local alternating_lstm_hidden_size = 32;
@@ -103,8 +103,8 @@ local encoders = {
     },
 };
 
-local encoder = "stack_lstm_gru";
-//local encoder = "lstm";
+//local encoder = "stack_lstm_gru";
+local encoder = "lstm";
 //local encoder = "stack_alternating_lstm_gru";
 
 
