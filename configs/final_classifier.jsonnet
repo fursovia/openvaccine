@@ -23,7 +23,7 @@ local bpps_dir = "data/raw_data/bpps";
 local bpp_dropout = 0.4;
 // should try to change
 //local bpps_aggegator = "null";
-local bpps_aggegator = "max_mean_sum_agg";
+local bpps_aggegator = "max_mean_agg";
 local bpps_dims = {
   "max_mean_sum_agg": 3,
   "max_mean_agg": 2,
@@ -176,7 +176,7 @@ local predicted_loop_type_field_attentions = {
 };
 
 
-local lm_dropout = 0.55;
+local lm_dropout = 0.2;
 local emb_dropout = 0.17;
 
 {
