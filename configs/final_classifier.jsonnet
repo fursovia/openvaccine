@@ -104,7 +104,8 @@ local encoders = {
 };
 
 //local encoder = "stack_lstm_gru";
-local encoder = "lstm";
+local encoder = "gru";
+//local encoder = "lstm";
 //local encoder = "stack_alternating_lstm_gru";
 
 
@@ -176,7 +177,7 @@ local predicted_loop_type_field_attentions = {
 };
 
 
-local lm_dropout = 0.6;
+local lm_dropout = 0.5;
 local emb_dropout = 0.17;
 
 {
@@ -242,7 +243,7 @@ local emb_dropout = 0.17;
       "regexes": [
         [".*", {
           "type": "l2",
-          "alpha": 1e-07
+          "alpha": 1e-06
         }]
       ]
     }
