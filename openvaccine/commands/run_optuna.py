@@ -51,6 +51,7 @@ def set_trial(trial: optuna.Trial):
     bpps_dir = trial.suggest_categorical("bpps_dir", ["null", "data/raw_data/bpps"])
     if bpps_dir != "null":
         # "max_sum_nb_agg", "cnn_max_sum_nb_agg"
+        # TODO: no null for aggregator
         trial.suggest_categorical("bpps_aggegator", ["null", "max_mean_sum_agg", ])
         trial.suggest_float("bpp_dropout", 0.0, 0.7)
     else:

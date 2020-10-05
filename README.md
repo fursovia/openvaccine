@@ -40,9 +40,9 @@ CUDA_VISIBLE_DEVICES="3" \
     VALID_DATA_PATH=./data/valid.jsonl \
     PYTHONPATH=. python3 openvaccine/commands/run_optuna.py \
         ./configs/optuna/final_classifier.jsonnet \
-        logs/optuna \
+        logs/final_classifier \
         --num-trials 1000 \
-        --n-jobs 15
+        --n-jobs 20
 ```
 
 ## To-Do
