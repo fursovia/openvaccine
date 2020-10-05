@@ -75,6 +75,7 @@ class FinalClassifier(Model):
             seq_id: Any,
             bpps: Optional[torch.Tensor] = None,
             target: Optional[torch.Tensor] = None,
+            signal_to_noise: Optional[torch.Tensor] = None,
             **kwargs,
     ) -> Dict[str, torch.Tensor]:
         mask = get_text_field_mask(sequence)
@@ -139,9 +140,15 @@ class FinalClassifier(Model):
             # TODO: slicing depends on whether we have start/end tokens
             # target.size(1) works since we know that all samples in the train
             # are of the same length
+            if signal_to_noise is not None:
+                weight = torch.log(signal_to_noise.view(-1) + 1.1) / 2
+            else:
+                weight = None
+
             target = target.transpose(1, 2)
             output_dict["loss"] = self._loss(
                 logits[:, 1:target.size(1) + 1, :].reshape((-1, 5)),
                 target.reshape((-1, 5)),
+                weight
             )
         return output_dict

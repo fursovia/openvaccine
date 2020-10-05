@@ -53,6 +53,7 @@ class CovidReader(DatasetReader):
             deg_Mg_50C: Optional[List[float]] = None,
             deg_50C: Optional[List[float]] = None,
             bpps: Optional[np.ndarray] = None,
+            signal_to_noise: Optional[float] = None,
             **kwargs
     ) -> Instance:
 
@@ -119,6 +120,9 @@ class CovidReader(DatasetReader):
         if bpps is not None:
             fields["bpps"] = ArrayField(array=bpps)
 
+        if signal_to_noise is not None:
+            fields["signal_to_noise"] = ArrayField(array=np.array([signal_to_noise]))
+
         return Instance(fields)
 
     def _read(self, file_path: str):
@@ -154,6 +158,7 @@ class CovidReader(DatasetReader):
                     deg_Mg_50C=items.get("deg_Mg_50C"),
                     deg_50C=items.get("deg_50C"),
                     bpps=bpps,
+                    signal_to_noise=items.get("signal_to_noise")
                 )
                 if instance.fields["sequence"].sequence_length() <= self._max_sequence_length:
                     yield instance
