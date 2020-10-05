@@ -20,10 +20,10 @@ local predicted_loop_type_emb_dim = 64;
 
 //local bpps_dir = "null";
 local bpps_dir = "data/raw_data/bpps";
-local bpp_dropout = 0.0;
+local bpp_dropout = 0.4;
 // should try to change
 //local bpps_aggegator = "null";
-local bpps_aggegator = "max_mean_agg";
+local bpps_aggegator = "max_mean_nb_agg";
 local bpps_dims = {
   "max_mean_sum_agg": 3,
   "max_mean_agg": 2,
@@ -146,8 +146,9 @@ local predicted_loop_type_field_attentions = {
 
 
 //local masked_lm = "null";
-local masked_lm = "presets/lm.model.tar.gz";
+//local masked_lm = "presets/lm.model.tar.gz";
 //local masked_lm = "presets/gru_lm.model.tar.gz";
+local masked_lm = "presets/bert_lm.model.tar.gz";
 
 local lm_is_trainable = "false";
 local LanguageModel(path='presets/lm.model.tar.gz') = {
