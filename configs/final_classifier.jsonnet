@@ -18,12 +18,12 @@ local structure_emb_dim = 64;
 local predicted_loop_type_emb_dim = 64;
 
 
-//local bpps_dir = null;
-local bpps_dir = "data/raw_data/bpps";
+local bpps_dir = "null";
+//local bpps_dir = "data/raw_data/bpps";
 local bpp_dropout = 0.1;
 // should try to change
-//local bpps_aggegator = "null";
-local bpps_aggegator = "max_mean_nb_agg";
+local bpps_aggegator = "null";
+//local bpps_aggegator = "max_mean_nb_agg";
 local bpps_dims = {
   "max_mean_sum_agg": 3,
   "max_mean_agg": 2,
