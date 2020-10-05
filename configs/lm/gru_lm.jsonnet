@@ -50,7 +50,7 @@
     },
     "tokens_masker": {
       "type": "tokens_masker",
-      "mask_probability": 0.3,
+      "mask_probability": 0.35,
       "replace_probability": 0.1
     }
   },
@@ -62,7 +62,7 @@
     "pin_memory": true
   },
   "trainer": {
-    "num_epochs": 100,
+    "num_epochs": 200,
     "patience": 3,
     "cuda_device": 0
   }
