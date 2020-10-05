@@ -181,7 +181,7 @@ local bpp_dropout = 0.0;
   },
   "train_data_path": std.extVar("TRAIN_DATA_PATH"),
   "validation_data_path": std.extVar("VALID_DATA_PATH"),
-  "vocabulary": VOCAB['vocabulary'],
+  "vocabulary": VOCAB,
   "model": {
     "type": "final_classifier",
     // embedders
