@@ -145,8 +145,8 @@ local predicted_loop_type_field_attentions = {
 };
 
 
-//local masked_lm = "presets/lm.model.tar.gz";
-local masked_lm = "presets/gru_lm.model.tar.gz";
+local masked_lm = "presets/lm.model.tar.gz";
+//local masked_lm = "presets/gru_lm.model.tar.gz";
 
 local lm_is_trainable = "false";
 local LanguageModel(path='presets/lm.model.tar.gz') = {
