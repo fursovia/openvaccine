@@ -176,7 +176,7 @@ local predicted_loop_type_field_attentions = {
 };
 
 
-local lm_dropout = 0.2;
+local lm_dropout = 0.6;
 local emb_dropout = 0.17;
 
 {
