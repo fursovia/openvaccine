@@ -20,7 +20,7 @@ local predicted_loop_type_emb_dim = 64;
 
 //local bpps_dir = null;
 local bpps_dir = "data/raw_data/bpps";
-local bpp_dropout = 0.0;
+local bpp_dropout = 0.1;
 // should try to change
 //local bpps_aggegator = "null";
 local bpps_aggegator = "max_mean_nb_agg";
